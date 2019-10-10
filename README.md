@@ -1,0 +1,1 @@
+# Boilerplates for net core projects
