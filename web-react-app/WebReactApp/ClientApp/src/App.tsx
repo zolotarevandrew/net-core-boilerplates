@@ -8,7 +8,7 @@ export default class App extends React.Component<any> {
     render() {
         return (
             <div>
-                App1
+                App1 updated
             </div>
         );
     }
