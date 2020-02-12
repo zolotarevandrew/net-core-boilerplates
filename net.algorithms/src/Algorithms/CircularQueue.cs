@@ -14,7 +14,7 @@
 
     public class CircularQueue<T> : ICircularQueue<T>
     {
-        int _head = -1, _tail = -1;
+        int _head, _tail;
         int _maxSize;
         T[] _queue;
 
@@ -30,6 +30,8 @@
         {
             get
             {
+                if (IsEmpty()) return 0;
+
                 if (_head <= _tail)
                 {
                     return (_tail - _head) + 1;
@@ -48,9 +50,9 @@
                 return false;
             }
 
-            if (_tail == -1) _tail = 0;
-            var newTail = IncrementIndex(_tail);
-            _queue[newTail] = item;
+            if (_head == -1) _head = 0;
+            _tail = IncrementIndex(_tail);
+            _queue[_tail] = item;
             return true;
         }
 
