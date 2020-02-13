@@ -1,4 +1,6 @@
-﻿namespace Algorithms
+﻿using System;
+
+namespace Algorithms
 {
     public interface ICircularQueue<T>
     {
@@ -20,7 +22,7 @@
 
         public CircularQueue(int size)
         {
-            if (size < 1) throw new System.Exception("Invalid size have passed");
+            if (size < 1) throw new InvalidOperationException("Invalid size have passed");
             _maxSize = size;
             _queue = new T[size];
             Clear();
