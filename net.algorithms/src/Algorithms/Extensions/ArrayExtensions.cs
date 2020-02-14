@@ -19,7 +19,7 @@ namespace Algorithms.Extensions
             int right = arr.Length - 1;
             while(left <= right)
             {
-                int middle = (right + left) / 2;
+                int middle = (right - left) / 2 + left;
                 var compareResult = equalityComparer(item, arr[middle]);
                 if (compareResult == EqualityKind.Equal) {
                     return true;
