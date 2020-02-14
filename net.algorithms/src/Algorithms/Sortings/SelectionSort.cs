@@ -5,31 +5,29 @@ using System.Linq;
 
 namespace Algorithms.Sortings
 {
-    public static class BubbleSort
+    public static class SelectionSort
     {
         public static IEnumerable<T> Apply<T>(IEnumerable<T> source, Func<T, T, bool> moreThanComparer)
         {
             return Apply(source.ToArray(), moreThanComparer);
         }
 
-        public static T[] Apply<T>(T[] source, Func<T,T, bool> moreThanComparer)
+        public static T[] Apply<T>(T[] source, Func<T, T, bool> moreThanComparer)
         {
-            bool isSorted = false;
-            int lastUnsorted = source.Length - 1;
-            while(!isSorted)
+            for(int swapIdx = 0; swapIdx < source.Length - 1; swapIdx++)
             {
-                isSorted = true;
-                for (int idx = 0; idx < lastUnsorted; idx++)
+                int minIdx = swapIdx;
+                for (int idx = swapIdx + 1; idx < source.Length; idx++)
                 {
-                    var item1 = source[idx];
-                    var item2 = source[idx + 1];
+                    var item1 = source[minIdx];
+                    var item2 = source[idx];
                     if (moreThanComparer(item1, item2))
                     {
-                        source.Swap(idx, idx+1);
-                        isSorted = false;
+                        minIdx = idx;
                     }
                 }
-                lastUnsorted--;
+
+                source.Swap(swapIdx, minIdx);
             }
             return source;
         }
