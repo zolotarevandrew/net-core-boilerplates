@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Algorithms.Sortings
 {
-    public static class BinaryInsertionSorting
+    public static class InsertionSorting
     {
         public static IEnumerable<T> Apply<T>(IEnumerable<T> source, Func<T, T, bool> moreThanComparer)
         {
