@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Xunit;
 using Algorithms.Extensions;
+using Algorithms.Sortings;
 
 namespace Algorithms.Tests.Extensions
 {
@@ -16,7 +17,8 @@ namespace Algorithms.Tests.Extensions
             };
 
             //Act
-            var res = data.BinarySearch(7, (it1, it2) =>
+            var sorted = BubbleSort.Apply(data, (it1, it2) => it1 > it2);
+            var res = sorted.BinarySearch(7, (it1, it2) =>
             {
                 if (it1 == it2) return EqualityKind.Equal;
                 if (it1 < it2) return EqualityKind.Less;
