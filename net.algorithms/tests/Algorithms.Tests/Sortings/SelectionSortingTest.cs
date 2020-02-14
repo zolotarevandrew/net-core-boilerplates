@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Algorithms.Tests.Sortings
 {
-    public class SelectionSortTest
+    public class SelectionSortingTest
     {
         [Fact]
         public void SortedData_Apply_ShouldReturnSortedData()
@@ -19,7 +19,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = SelectionSort.Apply(data, (it1, it2) => it1 > it2);
+            var res = SelectionSorting.Apply(data, (it1, it2) => it1 > it2);
 
             //Assert
             Assert.True(data.SequenceEqual(res));
@@ -35,7 +35,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = SelectionSort.Apply(data, (it1, it2) => it1 > it2);
+            var res = SelectionSorting.Apply(data, (it1, it2) => it1 > it2);
 
             //Assert
             data.Sort();
