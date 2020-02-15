@@ -1,6 +1,7 @@
 ﻿using Algorithms.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Algorithms.Sortings
@@ -14,38 +15,77 @@ namespace Algorithms.Sortings
 
         public static T[] SortByMerge<T>(this T[] source, Func<T, T, bool> moreThanComparer)
         {
+            int size = source.Length;
+            int maxLength = size - 1;
+            int divideLength = 1;
+            while (divideLength < size)
+            {
+                int startIdx = 0;
+                bool isStopped = false;
+                var newLength = divideLength * 2;
+
+                while(!isStopped)
+                {
+                    var start = startIdx;
+                    var end = startIdx + newLength - 1;
+                    var split = (end - start) / 2 + start;
+
+                    if (!source.IndexExists(split)) split = maxLength;
+                    if (!source.IndexExists(end)) end = maxLength;
+
+                    isStopped = end == maxLength;
+                    source.MergeByMinElements(
+                        start,
+                        split,
+                        end, 
+                        moreThanComparer
+                    );
+                    startIdx += newLength;
+                }
+
+                divideLength = newLength;
+            }
             return source;
         }
-
-        public static T[] MergeByMinElements<T>(this T[] arr1, T[] arr2, Func<T, T, bool> moreThanComparer)
+        
+        public static void MergeByMinElements<T>(this T[] arr, int start, int split, int end, Func<T, T, bool> moreThanComparer)
         {
-            int size = Math.Max(arr1.Length, arr2.Length);
+            //TODO remove temp buffer
+            var buffer = new T[end - start + 1];
+            var firstIdx = start;
+            var secondIdx = split + 1;
+            int resIdx = 0;
 
-            var result = new T[size];
-            for(int idx = 0; idx < size; idx++)
+            while (firstIdx <= split && secondIdx <= end)
             {
-                var arr1ItemExists = arr1.IndexExists(idx);
-                var arr2ItemExists = arr2.IndexExists(idx);
-                if (!arr1ItemExists && arr2ItemExists)
+                if (moreThanComparer(arr[firstIdx], arr[secondIdx]))
                 {
-                    result[idx] = arr2[idx];
-                    continue;
+                    buffer[resIdx] = arr[secondIdx];
+                    secondIdx++;
                 }
-                if (!arr2ItemExists && arr1ItemExists)
+                else
                 {
-                    result[idx] = arr1[idx];
-                    continue;
+                    buffer[resIdx] = arr[firstIdx];
+                    firstIdx++;
                 }
-                result[idx] = moreThanComparer(arr1[idx], arr2[idx])
-                       ? arr2[idx]
-                       : arr1[idx];
+                resIdx++;
             }
-            return result;
-        }
 
-        public static IEnumerable<T> MergeByMinElements<T>(this IEnumerable<T> arr1, IEnumerable<T> arr2, Func<T, T, bool> moreThanComparer)
-        {
-            return arr1.ToArray().MergeByMinElements(arr2.ToArray(), moreThanComparer);
+            while (firstIdx <= split)
+            {
+                buffer[resIdx] = arr[firstIdx];
+                firstIdx++;
+                resIdx++;
+            }
+
+            while (secondIdx <= end)
+            {
+                buffer[resIdx] = arr[secondIdx];
+                secondIdx++;
+                resIdx++;
+            }
+
+            buffer.CopyTo(arr, start);
         }
     }
 }

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace Algorithms.Tests.Sortings
@@ -10,117 +9,124 @@ namespace Algorithms.Tests.Sortings
     public class MergeSortingTest
     {
         [Fact]
-        public void EqualArrayLengths_MergeByMinElements_ShouldReturnCorrectData()
+        public void OneElement_MergeByMinElements_ShouldReturnCorrectData()
         {
             //Arrange
             var arr1 = new List<int>
             {
-                1, 2, 3, 4, 5, 6, 7, 8, 9
-            };
-            var arr2 = new List<int>
-            {
-                5, 9, 8, 5, 1, 2, 11, 5, 1
-            };
+                3
+            }.ToArray();
 
             //Act
-            var res = arr1.MergeByMinElements(arr2, (it1, it2) => it1 > it2);
+            arr1.MergeByMinElements(0, 0, arr1.Length - 1, (it1, it2) => it1 > it2);
 
             //Assert
-            Assert.Equal(arr1.Count, res.Count());
+            Assert.Single(arr1);
             Assert.True(new List<int>
             {
-                1, 2, 3, 4, 1, 2, 7, 5, 1
-            }.SequenceEqual(res));
+               3
+            }.SequenceEqual(arr1));
         }
 
         [Fact]
-        public void FirstEmptyAndSecondNotEmpty_MergeByMinElements_ShouldReturnCorrectData()
+        public void TwoElements_MergeByMinElements_ShouldReturnCorrectData()
         {
             //Arrange
             var arr1 = new List<int>
             {
-                
-            };
-            var arr2 = new List<int>
-            {
-                5, 9, 8, 5, 1, 2, 11, 5, 1
-            };
+                3, 2
+            }.ToArray();
 
             //Act
-            var res = arr1.MergeByMinElements(arr2, (it1, it2) => it1 > it2);
+            arr1.MergeByMinElements(0, 0, arr1.Length - 1, (it1, it2) => it1 > it2);
 
             //Assert
-            Assert.Equal(arr2.Count, res.Count());
-            Assert.True(arr2.SequenceEqual(res));
-        }
-
-        [Fact]
-        public void SecondEmptyAndFirstNotEmpty_MergeByMinElements_ShouldReturnCorrectData()
-        {
-            //Arrange
-            var arr1 = new List<int>
-            {
-
-            };
-            var arr2 = new List<int>
-            {
-                5, 9, 8, 5, 1, 2, 11, 5, 1
-            };
-
-            //Act
-            var res = arr2.MergeByMinElements(arr1, (it1, it2) => it1 > it2);
-
-            //Assert
-            Assert.Equal(arr2.Count, res.Count());
-            Assert.True(arr2.SequenceEqual(res));
-        }
-
-        [Fact]
-        public void FirstLengthMoreThanSecond_MergeByMinElements_ShouldReturnCorrectData()
-        {
-            //Arrange
-            var arr1 = new List<int>
-            {
-                5, 9, 8, 5, 1, 2, 11, 5, 1
-            };
-            var arr2 = new List<int>
-            {
-                1, 2, 3
-            };
-
-            //Act
-            var res = arr1.MergeByMinElements(arr2, (it1, it2) => it1 > it2);
-
-            //Assert
-            Assert.Equal(arr1.Count, res.Count());
+            Assert.Equal(2, arr1.Length);
             Assert.True(new List<int>
             {
-                1, 2, 3, 5, 1, 2, 11, 5, 1
-            }.SequenceEqual(res));
+                2, 3
+            }.SequenceEqual(arr1));
         }
 
         [Fact]
-        public void SecondLengthMoreThanFirst_MergeByMinElements_ShouldReturnCorrectData()
+        public void FourElements_MergeByMinElements_ShouldReturnCorrectData()
         {
             //Arrange
             var arr1 = new List<int>
             {
-                5, 9, 8, 5, 1, 2, 11, 6
-            };
-            var arr2 = new List<int>
-            {
-                1, 2, 3
-            };
+                8, 9, 4, 5
+            }.ToArray();
 
             //Act
-            var res = arr2.MergeByMinElements(arr1, (it1, it2) => it1 > it2);
+            arr1.MergeByMinElements(0, 1, arr1.Length - 1, (it1, it2) => it1 > it2);
 
             //Assert
-            Assert.Equal(arr1.Count, res.Count());
+            Assert.Equal(4, arr1.Length);
             Assert.True(new List<int>
             {
-                1, 2, 3, 5, 1, 2, 11, 6
-            }.SequenceEqual(res));
+                4, 5, 8, 9
+            }.SequenceEqual(arr1));
+        }
+
+
+        [Fact]
+        public void FiveElements_MergeByMinElements_ShouldReturnCorrectData()
+        {
+            //Arrange
+            var arr1 = new List<int>
+            {
+                8, 9, 4, 5, 9
+            }.ToArray();
+
+            //Act
+            arr1.MergeByMinElements(0, 1, arr1.Length - 1, (it1, it2) => it1 > it2);
+
+            //Assert
+            Assert.Equal(5, arr1.Length);
+            Assert.True(new List<int>
+            {
+                4, 5, 8, 9, 9
+            }.SequenceEqual(arr1));
+        }
+
+        [Fact]
+        public void EightElements_MergeByMinElements_ShouldReturnCorrectData()
+        {
+            //Arrange
+            var arr1 = new List<int>
+            {
+                5, 6, 7, 9,  1, 3, 4, 5
+            }.ToArray();
+
+            //Act
+            arr1.MergeByMinElements(0, 3, arr1.Length - 1, (it1, it2) => it1 > it2);
+
+            //Assert
+            Assert.Equal(8, arr1.Length);
+            Assert.True(new List<int>
+            {
+                1, 3, 4, 5, 5, 6, 7, 9
+            }.SequenceEqual(arr1));
+        }
+
+        [Fact]
+        public void NineElements_MergeByMinElements_ShouldReturnCorrectData()
+        {
+            //Arrange
+            var arr1 = new List<int>
+            {
+                5, 6, 7, 9,  1, 3, 4, 9, 10
+            }.ToArray();
+
+            //Act
+            arr1.MergeByMinElements(0, 3, arr1.Length - 1, (it1, it2) => it1 > it2);
+
+            //Assert
+            Assert.Equal(9, arr1.Length);
+            Assert.True(new List<int>
+            {
+                1, 3, 4, 5, 6, 7, 9, 9, 10
+            }.SequenceEqual(arr1));
         }
 
         [Fact]
@@ -145,7 +151,7 @@ namespace Algorithms.Tests.Sortings
             //Arrange
             var data = new List<int>
             {
-                5, 6, 7, 8, 9, 10, 11, 12, 10, 9, 5
+                13, 3, 8, 1, 15, 2, 3, 7
             };
 
             //Act
