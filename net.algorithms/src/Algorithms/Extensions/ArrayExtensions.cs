@@ -13,6 +13,13 @@ namespace Algorithms.Extensions
             arr[i2] = t;
         }
 
+        public static bool IndexExists<T>(this T[] arr, int idx) 
+        {
+            if (arr.Length == 0) return false;
+
+            return idx < arr.Length;
+        }
+
         public static bool BinarySearch<T>(this T[] arr, T item, Func<T,T, EqualityKind> equalityComparer)
         {
             int left = 0;

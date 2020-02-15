@@ -19,7 +19,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = BubbleSorting.Apply(data, (it1, it2) => it1 > it2);
+            var res = data.SortByBubble((it1, it2) => it1 > it2);
 
             //Assert
             Assert.True(data.SequenceEqual(res));
@@ -35,7 +35,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = BubbleSorting.Apply(data, (it1, it2) => it1 > it2);
+            var res = data.SortByBubble((it1, it2) => it1 > it2);
 
             //Assert
             data.Sort();

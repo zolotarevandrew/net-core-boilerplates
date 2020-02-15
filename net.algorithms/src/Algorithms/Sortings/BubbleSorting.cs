@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace Algorithms.Sortings
 {
-    public static class BubbleSorting
+    public static class BubbleSortingExtensions
     {
-        public static IEnumerable<T> Apply<T>(IEnumerable<T> source, Func<T, T, bool> moreThanComparer)
+        public static IEnumerable<T> SortByBubble<T>(this IEnumerable<T> source, Func<T, T, bool> moreThanComparer)
         {
-            return Apply(source.ToArray(), moreThanComparer);
+            return SortByBubble(source.ToArray(), moreThanComparer);
         }
 
-        public static T[] Apply<T>(T[] source, Func<T,T, bool> moreThanComparer)
+        public static T[] SortByBubble<T>(this T[] source, Func<T,T, bool> moreThanComparer)
         {
             bool isSorted = false;
             int lastUnsorted = source.Length - 1;

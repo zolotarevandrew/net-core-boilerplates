@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace Algorithms.Sortings
 {
-    public static class SelectionSorting
+    public static class SelectionSortingExtensions
     {
-        public static IEnumerable<T> Apply<T>(IEnumerable<T> source, Func<T, T, bool> moreThanComparer)
+        public static IEnumerable<T> SortBySelection<T>(this IEnumerable<T> source, Func<T, T, bool> moreThanComparer)
         {
-            return Apply(source.ToArray(), moreThanComparer);
+            return SortBySelection(source.ToArray(), moreThanComparer);
         }
 
-        public static T[] Apply<T>(T[] source, Func<T, T, bool> moreThanComparer)
+        public static T[] SortBySelection<T>(this T[] source, Func<T, T, bool> moreThanComparer)
         {
             for(int swapIdx = 0; swapIdx < source.Length - 1; swapIdx++)
             {

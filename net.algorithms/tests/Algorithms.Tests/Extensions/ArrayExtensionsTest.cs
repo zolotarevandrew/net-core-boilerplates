@@ -17,7 +17,7 @@ namespace Algorithms.Tests.Extensions
             };
 
             //Act
-            var sorted = BubbleSorting.Apply(data, (it1, it2) => it1 > it2);
+            var sorted = data.SortByBubble((it1, it2) => it1 > it2);
             var res = sorted.BinarySearch(7, (it1, it2) =>
             {
                 if (it1 == it2) return EqualityKind.Equal;

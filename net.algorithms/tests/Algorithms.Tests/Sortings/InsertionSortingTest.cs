@@ -19,7 +19,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = InsertionSorting.Apply(data, (it1, it2) => it1 > it2);
+            var res = data.SortByInsertion((it1, it2) => it1 > it2);
 
             //Assert
             Assert.True(data.SequenceEqual(res));
@@ -35,7 +35,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = InsertionSorting.Apply(data, (it1, it2) => it1 > it2);
+            var res = data.SortByInsertion((it1, it2) => it1 > it2);
 
             //Assert
             data.Sort();
