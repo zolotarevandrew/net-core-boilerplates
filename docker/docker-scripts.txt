@@ -1,0 +1,24 @@
+//build
+docker build  -t {name} .
+docker build  -t {name} .
+docker build -t generator-test:build .
+docker build --rm=false --no-cache -t test .
+
+//run
+docker run --rm -it -p 7045:80 aspnetcore/generator
+docker run --rm -it -v ${PWD}:/api -p 7045:80 mcr.microsoft.com/dotnet/core/runtime:2.2
+docker run --rm -it -v ${PWD}:/api -p 7045:80 mcr.microsoft.com/dotnet/core/sdk:2.2
+
+//list
+docker ps -a
+
+//configuration
+docker inspect {name} | jq
+
+//events
+docker events --format '{{json .}}'
+
+docker run -d nginx
+docker-compose up -d --build
+
+ docker system prune --all

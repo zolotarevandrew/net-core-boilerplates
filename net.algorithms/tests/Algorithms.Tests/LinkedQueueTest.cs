@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Concurrent.Tests
+namespace Algorithms.Tests
 {
     public class LinkedQueueTest
     {

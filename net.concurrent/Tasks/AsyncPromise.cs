@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-namespace AsyncTypes.Tasks
+namespace Concurrent.Tasks
 {
     [AsyncMethodBuilder(typeof(AsyncPromiseBuilder<>))]
     public class AsyncPromise<T> : INotifyCompletion

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Concurrent
+namespace Algorithms
 {
     public class LinkedQueue<T> : IQueue<T>
     {

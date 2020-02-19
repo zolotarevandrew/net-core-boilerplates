@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 
-namespace AsyncTypes.Tasks
+namespace Concurrent.Tasks
 {
     public class AsyncPromiseBuilder<T>
     {
