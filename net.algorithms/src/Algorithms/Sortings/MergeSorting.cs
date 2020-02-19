@@ -50,7 +50,6 @@ namespace Algorithms.Sortings
         
         public static void MergeByMinElements<T>(this T[] arr, int start, int split, int end, Func<T, T, bool> moreThanComparer)
         {
-            //TODO remove temp buffer
             var buffer = new T[end - start + 1];
             var firstIdx = start;
             var secondIdx = split + 1;
