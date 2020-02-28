@@ -1,25 +1,20 @@
-﻿using Algorithms.Extensions;
+﻿using Algorithms.Comparers;
+using Algorithms.Extensions;
+using Algorithms.Trees;
 using System;
 using System.Linq;
 using Xunit;
 
-namespace Algorithms.Tests
+namespace Algorithms.Tests.Trees
 {
-    public class SearchTreeSimpleTest
+    public class BinarySearchTreeTest
     {
         [Fact]
         public void OneElement_SearchExistingElement()
         {
             //Arrange
-            Func<int, int, EqualityKind> comparer = (t, t1) =>
-            {
-                if (t == t1) return EqualityKind.Equal;
-                if (t > t1) return EqualityKind.Less;
-                return EqualityKind.More;
-            };
-            var tree = new SearchTreeSimple<int>(comparer);
+            var tree = new BinarySearchTree<int>(DataComparers.NewByType<int>());
             tree.Add(50);
-
 
             //Act
             Assert.True(tree.Search(50) != null);
@@ -29,13 +24,7 @@ namespace Algorithms.Tests
         public void SearchExistingElement()
         {
             //Arrange
-            Func<int, int, EqualityKind> comparer = (t, t1) =>
-            {
-                if (t == t1) return EqualityKind.Equal;
-                if (t > t1) return EqualityKind.Less;
-                return EqualityKind.More;
-            };
-            var tree = new SearchTreeSimple<int>(comparer);
+            var tree = new BinarySearchTree<int>(DataComparers.NewByType<int>());
             var item = tree.Add(50);
             item = tree.Add(20);
             item = tree.Add(60);
@@ -63,13 +52,7 @@ namespace Algorithms.Tests
         public void InOrder()
         {
             //Arrange
-            Func<int, int, EqualityKind> comparer = (t, t1) =>
-            {
-                if (t == t1) return EqualityKind.Equal;
-                if (t > t1) return EqualityKind.Less;
-                return EqualityKind.More;
-            };
-            var tree = new SearchTreeSimple<int>(comparer);
+            var tree = new BinarySearchTree<int>(DataComparers.NewByType<int>());
             tree.Add(50);
             tree.Add(20);
             tree.Add(60);
@@ -93,13 +76,7 @@ namespace Algorithms.Tests
         public void SearchNotExistingElement()
         {
             //Arrange
-            Func<int, int, EqualityKind> comparer = (t, t1) =>
-            {
-                if (t == t1) return EqualityKind.Equal;
-                if (t > t1) return EqualityKind.Less;
-                return EqualityKind.More;
-            };
-            var tree = new SearchTreeSimple<int>(comparer);
+            var tree = new BinarySearchTree<int>(DataComparers.NewByType<int>());
             tree.Add(50);
             tree.Add(20);
             tree.Add(60);

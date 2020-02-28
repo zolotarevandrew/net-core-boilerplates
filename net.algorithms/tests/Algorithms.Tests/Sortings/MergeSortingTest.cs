@@ -1,4 +1,5 @@
-﻿using Algorithms.Sortings;
+﻿using Algorithms.Comparers;
+using Algorithms.Sortings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Algorithms.Tests.Sortings
             }.ToArray();
 
             //Act
-            arr1.MergeByMinElements(0, 0, arr1.Length - 1, (it1, it2) => it1 > it2);
+            arr1.MergeByMinElements(0, 0, arr1.Length - 1, DataComparers.Int);
 
             //Assert
             Assert.Single(arr1);
@@ -38,7 +39,7 @@ namespace Algorithms.Tests.Sortings
             }.ToArray();
 
             //Act
-            arr1.MergeByMinElements(0, 0, arr1.Length - 1, (it1, it2) => it1 > it2);
+            arr1.MergeByMinElements(0, 0, arr1.Length - 1, DataComparers.Int);
 
             //Assert
             Assert.Equal(2, arr1.Length);
@@ -58,7 +59,7 @@ namespace Algorithms.Tests.Sortings
             }.ToArray();
 
             //Act
-            arr1.MergeByMinElements(0, 1, arr1.Length - 1, (it1, it2) => it1 > it2);
+            arr1.MergeByMinElements(0, 1, arr1.Length - 1, DataComparers.Int);
 
             //Assert
             Assert.Equal(4, arr1.Length);
@@ -79,7 +80,7 @@ namespace Algorithms.Tests.Sortings
             }.ToArray();
 
             //Act
-            arr1.MergeByMinElements(0, 1, arr1.Length - 1, (it1, it2) => it1 > it2);
+            arr1.MergeByMinElements(0, 1, arr1.Length - 1, DataComparers.Int);
 
             //Assert
             Assert.Equal(5, arr1.Length);
@@ -99,7 +100,7 @@ namespace Algorithms.Tests.Sortings
             }.ToArray();
 
             //Act
-            arr1.MergeByMinElements(0, 3, arr1.Length - 1, (it1, it2) => it1 > it2);
+            arr1.MergeByMinElements(0, 3, arr1.Length - 1, DataComparers.Int);
 
             //Assert
             Assert.Equal(8, arr1.Length);
@@ -119,7 +120,7 @@ namespace Algorithms.Tests.Sortings
             }.ToArray();
 
             //Act
-            arr1.MergeByMinElements(0, 3, arr1.Length - 1, (it1, it2) => it1 > it2);
+            arr1.MergeByMinElements(0, 3, arr1.Length - 1, DataComparers.Int);
 
             //Assert
             Assert.Equal(9, arr1.Length);
@@ -139,7 +140,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = data.SortByMerge((it1, it2) => it1 > it2);
+            var res = data.ApplyMergeSort(DataComparers.Int);
 
             //Assert
             Assert.True(data.SequenceEqual(res));
@@ -155,7 +156,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = data.SortByMerge((it1, it2) => it1 > it2);
+            var res = data.ApplyMergeSort(DataComparers.Int);
 
             //Assert
             data.Sort();

@@ -2,17 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Algorithms.Comparers;
 
 namespace Algorithms.Sortings
 {
     public static class BubbleSortingExtensions
     {
-        public static IEnumerable<T> SortByBubble<T>(this IEnumerable<T> source, Func<T, T, bool> moreThanComparer)
+        public static IEnumerable<T> ApplyBubbleSort<T>(this IEnumerable<T> source, IDataComparer<T> comparer)
         {
-            return SortByBubble(source.ToArray(), moreThanComparer);
+            return ApplyBubbleSort(source.ToArray(), comparer);
         }
 
-        public static T[] SortByBubble<T>(this T[] source, Func<T,T, bool> moreThanComparer)
+        public static T[] ApplyBubbleSort<T>(this T[] source, IDataComparer<T> comparer)
         {
             bool isSorted = false;
             int lastUnsorted = source.Length - 1;
@@ -23,7 +24,7 @@ namespace Algorithms.Sortings
                 {
                     var item1 = source[idx];
                     var item2 = source[idx + 1];
-                    if (moreThanComparer(item1, item2))
+                    if (comparer.Compare(item1, item2).IsFirstMore)
                     {
                         source.Swap(idx, idx+1);
                         isSorted = false;

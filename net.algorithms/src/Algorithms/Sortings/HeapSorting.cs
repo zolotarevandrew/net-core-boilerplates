@@ -1,4 +1,5 @@
-﻿using Algorithms.Extensions;
+﻿using Algorithms.Comparers;
+using Algorithms.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +8,19 @@ namespace Algorithms.Sortings
 {
     public static class HeapSorting
     {
-        public static IEnumerable<T> HeapSort<T>(this IEnumerable<T> source, Func<T, T, bool> moreThanComparer)
+        public static IEnumerable<T> ApplyHeapSort<T>(this IEnumerable<T> source, IDataComparer<T> comparer)
         {
-            return HeapSort(source.ToArray(), moreThanComparer);
+            return ApplyHeapSort(source.ToArray(), comparer);
         }
 
-        public static T[] HeapSort<T>(this T[] source, Func<T, T, bool> moreThanComparer)
+        public static T[] ApplyHeapSort<T>(this T[] source, IDataComparer<T> comparer)
         {
             int length = source.Length;
 
             var index = length / 2 - 1;
             while (index >= 0)
             {
-                source.BubbleDown(length, index, moreThanComparer);
+                source.BubbleDown(length, index, comparer);
                 index--;
             }
 
@@ -28,14 +29,14 @@ namespace Algorithms.Sortings
             while (end >= 0)
             {
                 source.Swap(0, end);
-                source.BubbleDown(end, 0, moreThanComparer);
+                source.BubbleDown(end, 0, comparer);
                 end--;
             }
 
             return source;
         }
 
-        public static void BubbleDown<T>(this T[] source, int length, int index, Func<T, T, bool> moreThanComparer)
+        public static void BubbleDown<T>(this T[] source, int length, int index, IDataComparer<T> comparer)
         {
             int curIdx = index;
             while(curIdx < length)
@@ -45,12 +46,12 @@ namespace Algorithms.Sortings
 
                 int rightIndex = RightIndex(curIdx);
                 int maxChildIdx = leftIndex;
-                if (rightIndex < length && moreThanComparer(source[rightIndex], source[leftIndex]))
+                if (rightIndex < length && comparer.Compare(source[rightIndex], source[leftIndex]).IsFirstMore)
                 {
                     maxChildIdx = rightIndex;
                 }
 
-                if (moreThanComparer(source[maxChildIdx], source[curIdx]))
+                if (comparer.Compare(source[maxChildIdx], source[curIdx]).IsFirstMore)
                 {
                     source.Swap(curIdx, maxChildIdx);
                     curIdx = maxChildIdx;

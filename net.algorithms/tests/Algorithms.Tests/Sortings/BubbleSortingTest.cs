@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Xunit;
+using Algorithms.Comparers;
 
 namespace Algorithms.Tests.Sortings
 {
@@ -19,7 +20,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = data.SortByBubble((it1, it2) => it1 > it2);
+            var res = data.ApplyBubbleSort(DataComparers.Int);
 
             //Assert
             Assert.True(data.SequenceEqual(res));
@@ -35,7 +36,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = data.SortByBubble((it1, it2) => it1 > it2);
+            var res = data.ApplyBubbleSort(DataComparers.Int);
 
             //Assert
             data.Sort();

@@ -1,6 +1,6 @@
-﻿namespace Algorithms.Extensions
+﻿namespace Algorithms.Comparers
 {
-    public enum EqualityKind
+    public enum CompareType
     {
         Equal = 1,
         Less = 0,

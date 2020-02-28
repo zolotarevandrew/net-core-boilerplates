@@ -1,4 +1,5 @@
-﻿using Algorithms.Extensions;
+﻿using Algorithms.Comparers;
+using Algorithms.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,12 @@ namespace Algorithms.Sortings
 {
     public static class SelectionSortingExtensions
     {
-        public static IEnumerable<T> SortBySelection<T>(this IEnumerable<T> source, Func<T, T, bool> moreThanComparer)
+        public static IEnumerable<T> ApplySelectionSort<T>(this IEnumerable<T> source, IDataComparer<T> comparer)
         {
-            return SortBySelection(source.ToArray(), moreThanComparer);
+            return ApplySelectionSort(source.ToArray(), comparer);
         }
 
-        public static T[] SortBySelection<T>(this T[] source, Func<T, T, bool> moreThanComparer)
+        public static T[] ApplySelectionSort<T>(this T[] source, IDataComparer<T> comparer)
         {
             for(int swapIdx = 0; swapIdx < source.Length - 1; swapIdx++)
             {
@@ -21,7 +22,7 @@ namespace Algorithms.Sortings
                 {
                     var item1 = source[minIdx];
                     var item2 = source[idx];
-                    if (moreThanComparer(item1, item2))
+                    if (comparer.Compare(item1, item2).IsFirstMore)
                     {
                         minIdx = idx;
                     }

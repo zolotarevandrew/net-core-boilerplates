@@ -1,4 +1,5 @@
-﻿using Algorithms.Extensions;
+﻿using Algorithms.Comparers;
+using Algorithms.Extensions;
 using Algorithms.Sortings;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = data.HeapSort((it1, it2) => it1 > it2);
+            var res = data.ApplyHeapSort(DataComparers.Int);
 
             //Assert
             Assert.True(data.SequenceEqual(res));
@@ -35,7 +36,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = data.HeapSort((it1, it2) => it1 > it2);
+            var res = data.ApplyHeapSort(DataComparers.Int);
 
             //Assert
             data.Sort();

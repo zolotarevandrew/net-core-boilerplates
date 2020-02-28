@@ -1,4 +1,5 @@
-﻿using Algorithms.Extensions;
+﻿using Algorithms.Comparers;
+using Algorithms.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,12 +9,12 @@ namespace Algorithms.Sortings
 {
     public static class MergeSortingExtensions
     {
-        public static IEnumerable<T> SortByMerge<T>(this IEnumerable<T> source, Func<T, T, bool> moreThanComparer)
+        public static IEnumerable<T> ApplyMergeSort<T>(this IEnumerable<T> source, IDataComparer<T> comparer)
         {
-            return SortByMerge(source.ToArray(), moreThanComparer);
+            return ApplyMergeSort(source.ToArray(), comparer);
         }
 
-        public static T[] SortByMerge<T>(this T[] source, Func<T, T, bool> moreThanComparer)
+        public static T[] ApplyMergeSort<T>(this T[] source, IDataComparer<T> comparer)
         {
             int size = source.Length;
             int maxLength = size - 1;
@@ -38,7 +39,7 @@ namespace Algorithms.Sortings
                         start,
                         split,
                         end, 
-                        moreThanComparer
+                        comparer
                     );
                     startIdx += newLength;
                 }
@@ -48,7 +49,7 @@ namespace Algorithms.Sortings
             return source;
         }
         
-        public static void MergeByMinElements<T>(this T[] arr, int start, int split, int end, Func<T, T, bool> moreThanComparer)
+        public static void MergeByMinElements<T>(this T[] arr, int start, int split, int end, IDataComparer<T> comparer)
         {
             var buffer = new T[end - start + 1];
             var firstIdx = start;
@@ -57,7 +58,7 @@ namespace Algorithms.Sortings
 
             while (firstIdx <= split && secondIdx <= end)
             {
-                if (moreThanComparer(arr[firstIdx], arr[secondIdx]))
+                if (comparer.Compare(arr[firstIdx], arr[secondIdx]).IsFirstMore)
                 {
                     buffer[resIdx] = arr[secondIdx];
                     secondIdx++;

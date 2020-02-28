@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Algorithms.Comparers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,22 +21,22 @@ namespace Algorithms.Extensions
             return idx < arr.Length;
         }
 
-        public static bool BinarySearch<T>(this T[] arr, T item, Func<T,T, EqualityKind> equalityComparer)
+        public static bool BinarySearch<T>(this T[] arr, T item, IDataComparer<T> comparer)
         {
             int left = 0;
             int right = arr.Length - 1;
             while(left <= right)
             {
                 int middle = (right - left) / 2 + left;
-                var compareResult = equalityComparer(item, arr[middle]);
-                if (compareResult == EqualityKind.Equal) {
+                var compareResult = comparer.Compare(item, arr[middle]);
+                if (compareResult.IsEqual) {
                     return true;
                 }
-                if (compareResult == EqualityKind.Less)
+                if (compareResult.IsFirstLess)
                 {
                     right = middle - 1;
                 }
-                if (compareResult == EqualityKind.More)
+                if (compareResult.IsFirstMore)
                 {
                     left = middle + 1;
                 }
@@ -43,9 +44,9 @@ namespace Algorithms.Extensions
             return false;
         }
 
-        public static bool BinarySearch<T>(this IEnumerable<T> arr, T item, Func<T, T, EqualityKind> equalityComparer)
+        public static bool BinarySearch<T>(this IEnumerable<T> arr, T item, IDataComparer<T> comparer)
         {
-            return arr.ToArray().BinarySearch(item, equalityComparer);
+            return arr.ToArray().BinarySearch(item, comparer);
         }
     }
 }

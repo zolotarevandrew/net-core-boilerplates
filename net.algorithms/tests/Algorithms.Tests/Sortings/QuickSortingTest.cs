@@ -1,4 +1,5 @@
-﻿using Algorithms.Extensions;
+﻿using Algorithms.Comparers;
+using Algorithms.Extensions;
 using Algorithms.Sortings;
 using System;
 using System.Collections.Generic;
@@ -19,12 +20,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = data.QuickSort((it1, it2) =>
-            {
-                if (it1 == it2) return EqualityKind.Equal;
-                if (it1 < it2) return EqualityKind.Less;
-                return EqualityKind.More;
-            });
+            var res = data.ApplyQuickSort(DataComparers.Int);
 
             //Assert
             Assert.True(data.SequenceEqual(res));
@@ -40,12 +36,7 @@ namespace Algorithms.Tests.Sortings
             };
 
             //Act
-            var res = data.QuickSort((it1, it2) =>
-            {
-                if (it1 == it2) return EqualityKind.Equal;
-                if (it1 < it2) return EqualityKind.Less;
-                return EqualityKind.More;
-            });
+            var res = data.ApplyQuickSort(DataComparers.Int);
 
             //Assert
             data.Sort();
