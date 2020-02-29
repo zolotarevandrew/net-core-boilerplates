@@ -24,22 +24,6 @@ namespace Algorithms.Trees
             return Add(this, item);
         }
 
-        public IBinarySearchTree<T> Search(T item)
-        {
-            IBinarySearchTree<T> Search(IBinarySearchTree<T> node, T it)
-            {
-                if (node == null) return null;
-
-                var equality = Comparer.Compare(it, node.Value);
-
-                if (equality.IsEqual) return node;
-                if (equality.IsFirstLess) return Search(node.Left, it);
-                if (equality.IsFirstMore) return Search(node.Right, it);
-                return null;
-            }
-            return Search(this, item);
-        }
-
         IBinarySearchTree<T> Add(BinarySearchTree<T> node, T item)
         {
             if (!node.HasValue)

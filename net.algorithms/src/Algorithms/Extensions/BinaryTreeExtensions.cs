@@ -20,5 +20,21 @@ namespace Algorithms.Extensions
             }
             return InOrder(tree);
         }
+
+        public static IBinarySearchTree<T> Search<T>(this IBinarySearchTree<T> tree, T item)
+        {
+            IBinarySearchTree<T> Search(IBinarySearchTree<T> node, T it)
+            {
+                if (node == null) return null;
+
+                var equality = tree.Comparer.Compare(it, node.Value);
+
+                if (equality.IsEqual) return node;
+                if (equality.IsFirstLess) return Search(node.Left, it);
+                if (equality.IsFirstMore) return Search(node.Right, it);
+                return null;
+            }
+            return Search(tree, item);
+        }
     }
 }
