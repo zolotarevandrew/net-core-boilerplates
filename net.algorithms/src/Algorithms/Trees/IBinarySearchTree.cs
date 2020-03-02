@@ -1,8 +1,9 @@
 ﻿using Algorithms.Comparers;
+using System;
 
 namespace Algorithms.Trees
 {
-    public interface IBinarySearchTree<T>
+    public interface IBinarySearchTree<T> : IDisposable
     {
         T Value { get; }
         bool HasValue { get; }
@@ -10,6 +11,8 @@ namespace Algorithms.Trees
         IBinarySearchTree<T> Left { get; }
         IBinarySearchTree<T> Right { get; }
 
-        IBinarySearchTree<T> Add(T item);
+        IBinarySearchTree<T> AddNode(T item);
+        void RemoveNode(IBinarySearchTree<T> node);
+        IBinarySearchTree<T> CloneNode();
     }
 }

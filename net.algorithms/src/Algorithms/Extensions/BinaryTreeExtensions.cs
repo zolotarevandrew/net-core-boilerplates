@@ -7,18 +7,53 @@ namespace Algorithms.Extensions
 {
     public static class BinaryTreeExtensions 
     {
-        public static IEnumerable<T> InOrder<T>(this IBinarySearchTree<T> tree)
+        public static void InOrder<T>(this IBinarySearchTree<T> tree, Action<IBinarySearchTree<T>> action)
         {
-            IEnumerable<T> InOrder(IBinarySearchTree<T> node)
+            void InOrderInternal(IBinarySearchTree<T> node)
             {
                 if (node != null)
                 {
-                    foreach (var it in InOrder(node.Left)) yield return it;
-                    yield return node.Value;
-                    foreach (var it in InOrder(node.Right)) yield return it;
+                    InOrderInternal(node.Left);
+                    action(node);
+                    InOrderInternal(node.Right);
                 }
             }
-            return InOrder(tree);
+            InOrderInternal(tree);
+        }
+
+        public static void PreOrder<T>(this IBinarySearchTree<T> tree, Action<IBinarySearchTree<T>> action)
+        {
+            void PreOrderInternal(IBinarySearchTree<T> node)
+            {
+                if (node != null)
+                {
+                    action(node);
+                    PreOrderInternal(node.Left);
+                    PreOrderInternal(node.Right);
+                }
+            }
+            PreOrderInternal(tree);
+        }
+
+        public static void PostOrder<T>(this IBinarySearchTree<T> tree, Action<IBinarySearchTree<T>> action)
+        {
+            void PostOrderInternal(IBinarySearchTree<T> node)
+            {
+                if (node != null)
+                {
+                    PostOrderInternal(node.Left);
+                    PostOrderInternal(node.Right);
+                    action(node);
+                }
+            }
+            PostOrderInternal(tree);
+        }
+
+        public static IBinarySearchTree<T> Clone<T>(this IBinarySearchTree<T> tree)
+        {
+            var newTree = tree.CloneNode();
+            tree.PostOrder(v => v.CloneNode());
+            return newTree;
         }
 
         public static IBinarySearchTree<T> Search<T>(this IBinarySearchTree<T> tree, T item)

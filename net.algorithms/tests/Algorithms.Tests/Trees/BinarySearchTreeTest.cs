@@ -2,6 +2,7 @@
 using Algorithms.Extensions;
 using Algorithms.Trees;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -14,7 +15,7 @@ namespace Algorithms.Tests.Trees
         {
             //Arrange
             var tree = new BinarySearchTree<int>(DataComparers.NewByType<int>());
-            tree.Add(50);
+            tree.AddNode(50);
 
             //Act
             Assert.True(tree.Search(50) != null);
@@ -25,12 +26,12 @@ namespace Algorithms.Tests.Trees
         {
             //Arrange
             var tree = new BinarySearchTree<int>(DataComparers.NewByType<int>());
-            var item = tree.Add(50);
-            item = tree.Add(20);
-            item = tree.Add(60);
-            item = tree.Add(30);
-            item = tree.Add(40);
-            item = tree.Add(55);
+            var item = tree.AddNode(50);
+            item = tree.AddNode(20);
+            item = tree.AddNode(60);
+            item = tree.AddNode(30);
+            item = tree.AddNode(40);
+            item = tree.AddNode(55);
 
 
             //Act
@@ -53,16 +54,17 @@ namespace Algorithms.Tests.Trees
         {
             //Arrange
             var tree = new BinarySearchTree<int>(DataComparers.NewByType<int>());
-            tree.Add(50);
-            tree.Add(20);
-            tree.Add(60);
-            tree.Add(30);
-            tree.Add(40);
-            tree.Add(55);
+            tree.AddNode(50);
+            tree.AddNode(20);
+            tree.AddNode(60);
+            tree.AddNode(30);
+            tree.AddNode(40);
+            tree.AddNode(55);
 
 
             //Act
-            var inorder = tree.InOrder().ToList();
+            var inorder = new List<int>();
+            tree.InOrder((v) => inorder.Add(v.Value));
             Assert.Equal(6, inorder.Count);
             Assert.Equal(20, inorder[0]);
             Assert.Equal(30, inorder[1]);
@@ -77,12 +79,12 @@ namespace Algorithms.Tests.Trees
         {
             //Arrange
             var tree = new BinarySearchTree<int>(DataComparers.NewByType<int>());
-            tree.Add(50);
-            tree.Add(20);
-            tree.Add(60);
-            tree.Add(30);
-            tree.Add(40);
-            tree.Add(55);
+            tree.AddNode(50);
+            tree.AddNode(20);
+            tree.AddNode(60);
+            tree.AddNode(30);
+            tree.AddNode(40);
+            tree.AddNode(55);
 
 
             //Act

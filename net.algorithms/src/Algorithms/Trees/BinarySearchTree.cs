@@ -1,4 +1,5 @@
 ﻿using Algorithms.Comparers;
+using Algorithms.Extensions;
 
 namespace Algorithms.Trees
 {
@@ -15,11 +16,11 @@ namespace Algorithms.Trees
         public T Value { get; private set; }
         public bool HasValue { get; private set; }
 
-        public IDataComparer<T> Comparer { get; }
+        public IDataComparer<T> Comparer { get; private set; }
         public IBinarySearchTree<T> Left => _left;
         public IBinarySearchTree<T> Right => _right;
 
-        public IBinarySearchTree<T> Add(T item)
+        public IBinarySearchTree<T> AddNode(T item)
         {
             return Add(this, item);
         }
@@ -62,5 +63,33 @@ namespace Algorithms.Trees
             Value = item;
             HasValue = true;
         }
+
+        public void Dispose()
+        {
+            this.PostOrder(v => RemoveNode(v));
+        }
+
+        public void RemoveNode(IBinarySearchTree<T> nd)
+        {
+            var node = nd as BinarySearchTree<T>;
+            if (node == null) return;
+            node.Value = default;
+            node.HasValue = false;
+            node._left = null;
+            node._right = null;
+            node.Comparer = null;
+        }
+
+        public IBinarySearchTree<T> CloneNode()
+        {
+            return new BinarySearchTree<T>(Comparer)
+            {
+                Value = Value,
+                HasValue = HasValue,
+                _left = _left,
+                _right = _right,
+            };
+        }
+
     }
 }
