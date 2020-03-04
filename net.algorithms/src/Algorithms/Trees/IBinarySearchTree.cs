@@ -7,6 +7,7 @@ namespace Algorithms.Trees
     {
         T Value { get; }
         bool HasValue { get; }
+        int Height { get; }
         IDataComparer<T> Comparer { get; }
         IBinarySearchTree<T> Left { get; }
         IBinarySearchTree<T> Right { get; }

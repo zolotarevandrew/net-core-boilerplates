@@ -5,13 +5,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Algorithms.Tests")]
 namespace Algorithms.Trees
 {
-
-    public interface IAVLTree<T> : IBinarySearchTree<T>
-    {
-        int Height { get; }
-    }
-
-    public class AVLTree<T> : IAVLTree<T>
+    public class AVLTree<T> : IBinarySearchTree<T>
     {
         AVLTree<T> _left = null;
         AVLTree<T> _right = null;
@@ -34,37 +28,67 @@ namespace Algorithms.Trees
             return Add(this, item);
         }
 
-        IBinarySearchTree<T> Add(AVLTree<T> node, T item)
+        AVLTree<T> Add(AVLTree<T> node, T item)
         {
             if (!node.HasValue)
             {
-                SetValue(item);
+                node.Value = item;
+                node.HasValue = true;
+                SetHeight(node);
                 return node;
             }
 
             var equality = Comparer.Compare(item, node.Value);
-
             if (equality.IsFirstLess)
             {
-                return TryAddItem(ref node._left, item);
+                node._left = Add(node._left ?? new AVLTree<T>(Comparer), item);
             }
-            if (equality.IsFirstMore)
+            else if (equality.IsFirstMore)
             {
-                return TryAddItem(ref node._right, item);
+                node._right = Add(node._right ?? new AVLTree<T>(Comparer), item);
             }
+            else return node;
+
+            SetHeight(node);
+            int balance = GetBalanceFactor(node);
+            if (balance > 1 && IsLeftLeft(item, node))
+                return RightRotate(node);
+
+            if (balance < -1 && IsRightRight(item, node))
+                return LeftRotate(node);
+
+            if (balance > 1 && IsLeftRight(item, node))
+                return LeftRightRotate(node);
+
+            if (balance < -1 && IsRightLeft(item, node))
+                return RightLeftRotate(node);
+
             return node;
         }
 
-        IBinarySearchTree<T> TryAddItem(ref AVLTree<T> node, T item)
+        bool IsLeftLeft(T item, AVLTree<T> node)
         {
-            if (node == null)
-            {
-                var newNode = new AVLTree<T>(Comparer);
-                newNode.SetValue(item);
-                node = newNode;
-                return node;
-            }
-            return Add(node, item);
+            return Comparer.Compare(item, node._left.Value).IsFirstLess;
+        }
+
+        bool IsRightRight(T item, AVLTree<T> node)
+        {
+            return Comparer.Compare(item, node._right.Value).IsFirstMore;
+        }
+
+        bool IsLeftRight(T item, AVLTree<T> node)
+        {
+            return Comparer.Compare(item, node._left.Value).IsFirstMore;
+        }
+
+        bool IsRightLeft(T item, AVLTree<T> node)
+        {
+            return Comparer.Compare(item, node._right.Value).IsFirstLess;
+        }
+
+        void SetHeight(AVLTree<T> node)
+        {
+            node.Height = 1 + Math.Max(GetHeight(node._left), GetHeight(node._right));
         }
 
         int GetHeight(AVLTree<T> node)
@@ -73,50 +97,47 @@ namespace Algorithms.Trees
             return node.Height;
         }
 
-        int GetBalance(AVLTree<T> node)
+        int GetBalanceFactor(AVLTree<T> node)
         {
             if (node == null)
                 return 0;
             return GetHeight(node._left) - GetHeight(node._right);
         }
 
-        internal AVLTree<T> LeftRotate(AVLTree<T> node)
+        AVLTree<T> LeftRotate(AVLTree<T> node)
         {
             var right = node._right;
             var rightLeft = right._left;
             right._left = node;
             node._right = rightLeft;
-
+            SetHeight(node);
+            SetHeight(right);
             return right;
         }
 
-        internal AVLTree<T> RightRotate(AVLTree<T> node)
+        AVLTree<T> RightRotate(AVLTree<T> node)
         {
             var left = node._left;
             var leftRight = left._right;
             left._right = node;
             node._left = leftRight;
+            SetHeight(node);
+            SetHeight(left);
             return left;
         }
 
-        internal AVLTree<T> LeftRightRotate(AVLTree<T> node)
+        AVLTree<T> LeftRightRotate(AVLTree<T> node)
         {
             var left = LeftRotate(node._left);
             node._left = left;
             return RightRotate(node);
         }
 
-        internal AVLTree<T> RightLeftRotate(AVLTree<T> node)
+        AVLTree<T> RightLeftRotate(AVLTree<T> node)
         {
             var right = RightRotate(node._right);
             node._right = right;
             return LeftRotate(node);
-        }
-
-        void SetValue(T item)
-        {
-            Value = item;
-            HasValue = true;
         }
 
         public IBinarySearchTree<T> CloneNode()

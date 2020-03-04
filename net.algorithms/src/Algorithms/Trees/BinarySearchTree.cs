@@ -19,6 +19,7 @@ namespace Algorithms.Trees
         public IDataComparer<T> Comparer { get; private set; }
         public IBinarySearchTree<T> Left => _left;
         public IBinarySearchTree<T> Right => _right;
+        public int Height { get; private set; }
 
         public IBinarySearchTree<T> AddNode(T item)
         {
