@@ -35,6 +35,49 @@ namespace Algorithms.Tests.Graphs
         }
 
         [Fact]
+        public void ListGraph_FindMother_ShouldReturnSixVertex()
+        {
+            //Arrange
+            var graph = new ListGraph<int, int>();
+            var v1 = new Vertex<int, int>(1, 1);
+            var v2 = new Vertex<int, int>(2, 2);
+            var v3 = new Vertex<int, int>(3, 3);
+            var v5 = new Vertex<int, int>(5, 5);
+            var v6 = new Vertex<int, int>(6, 6);
+
+            graph.AddEdge(v1, v2);
+            graph.AddEdge(v1, v3);
+            graph.AddEdge(v2, v5);
+            graph.AddEdge(v2, v6);
+            graph.AddEdge(v3, v6);
+
+            //Act
+            var result = graph.FindMother();
+
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Id);
+        }
+
+        [Fact]
+        public void ListGraph_FindMother_ShouldReturnNull()
+        {
+            //Arrange
+            var graph = new ListGraph<int, int>();
+            var v1 = new Vertex<int, int>(1, 1);
+            var v2 = new Vertex<int, int>(2, 2);
+            var v3 = new Vertex<int, int>(3, 3);
+            var v5 = new Vertex<int, int>(5, 5);
+
+            graph.AddEdge(v1, v3);
+            graph.AddEdge(v2, v5);
+
+            //Act
+            var result = graph.FindMother();
+
+            Assert.Null(result);
+        }
+
+        [Fact]
         public void ListGraph_DFS_ShouldReturnAllVertex()
         {
             //Arrange

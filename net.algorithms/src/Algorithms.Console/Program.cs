@@ -2,6 +2,7 @@
 using Algorithms.Extensions;
 using Algorithms.Trees;
 using System;
+using System.Collections.Generic;
 
 namespace Algorithms.Console
 {

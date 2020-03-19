@@ -71,32 +71,56 @@ namespace Algorithms.Graphs
 
         public IEnumerable<Vertex<TId, TValue>> DFS(TId id, bool recursive = false)
         {
-            if (!recursive) return DFSByStack(id);
-
             Dictionary<TId, bool> visited = new Dictionary<TId, bool>();
-
-            IEnumerable<Vertex<TId, TValue>> DFSRecurse(TId itemId, Dictionary<TId, bool> visitedDict)
-            {
-                visitedDict[itemId] = true;
-                yield return _list[itemId][0];
-
-                for (int idx = 1; idx < _list[itemId].Count; idx++)
-                {
-                    var curVertex = _list[itemId][idx];
-                    if (!visited.ContainsKey(curVertex.Id) || !visitedDict[curVertex.Id])
-                    {
-                        foreach (var item in DFSRecurse(curVertex.Id, visitedDict)) yield return item;
-                    }
-                }
-            }
+            if (!recursive) return DFSByStack(id, visited);
             return DFSRecurse(id, visited);
         }
 
-        IEnumerable<Vertex<TId, TValue>> DFSByStack(TId id)
+        public Vertex<TId, TValue> FindMother()
+        {
+            Dictionary<TId, bool> visited = new Dictionary<TId, bool>();
+            TId mother = default;
+            foreach (var key in _list.Keys)
+            {
+                var curVertex = _list[key][0];
+                if (!visited.ContainsKey(curVertex.Id) || !visited[curVertex.Id])
+                {
+                    foreach (var item in DFSRecurse(mother, visited, (id) => visited[id] = true)) { }
+                    mother = curVertex.Id;
+                }
+            }
+            visited = new Dictionary<TId, bool>();
+            foreach (var item in DFSRecurse(mother, visited, (id) => visited[id] = true)) { }
+
+            if (visited.Count != _list.Keys.Count) return null;
+            if (!_list.ContainsKey(mother)) return null;
+            return _list[mother][0];
+        }
+
+        IEnumerable<Vertex<TId, TValue>> DFSRecurse(
+            TId itemId, 
+            Dictionary<TId, bool> visitedDict, 
+            Action<TId> push = null)
+        {
+            if (!_list.ContainsKey(itemId)) yield break;
+            visitedDict[itemId] = true;
+            push?.Invoke(itemId);
+            yield return _list[itemId][0];
+
+            for (int idx = 1; idx < _list[itemId].Count; idx++)
+            {
+                var curVertex = _list[itemId][idx];
+                if (!visitedDict.ContainsKey(curVertex.Id) || !visitedDict[curVertex.Id])
+                {
+                    foreach (var item in DFSRecurse(curVertex.Id, visitedDict, push)) yield return item;
+                }
+            }
+        }
+
+        IEnumerable<Vertex<TId, TValue>> DFSByStack(TId id, Dictionary<TId, bool> visited)
         {
             if (!_list.ContainsKey(id)) yield break;
 
-            Dictionary<TId, bool> visited = new Dictionary<TId, bool>();
             visited[id] = true;
 
             var stack = new Stack<TId>();
