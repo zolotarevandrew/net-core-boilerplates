@@ -9,5 +9,6 @@ namespace Algorithms.Graphs
         IEnumerable<Vertex<TId, TValue>> BFS(TId id);
         IEnumerable<Vertex<TId, TValue>> DFS(TId id, bool recursive = false);
         Vertex<TId, TValue> FindMother();
+        int CountPaths(TId from, TId to);
     }
 }

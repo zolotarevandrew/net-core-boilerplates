@@ -149,5 +149,30 @@ namespace Algorithms.Graphs
             }
             while (stack.Count > 0);
         }
+
+        public int CountPaths(TId from, TId to)
+        {
+            if (!_list.ContainsKey(from) || !_list.ContainsKey(to)) throw new InvalidOperationException();
+            int paths = 0;
+            void CountPathsRecurse(TId u, TId v, ref Dictionary<TId, bool> vis, ref int numPaths)
+            {
+                vis[u] = true;
+                if (u.Equals(v)) numPaths++;
+                else
+                {
+                    var vertexList = _list[u];
+                    for (int idx = 1; idx < vertexList.Count; idx++)
+                    {
+                        var curVertex = vertexList[idx];
+                        if(!vis.ContainsKey(curVertex.Id) || !vis[curVertex.Id])
+                            CountPathsRecurse(curVertex.Id, v, ref vis, ref numPaths);
+                    }
+                }
+                vis[u] = false;
+            }
+            var visited = new Dictionary<TId, bool>();
+            CountPathsRecurse(from, to, ref visited, ref paths);
+            return paths;
+        }
     }
 }

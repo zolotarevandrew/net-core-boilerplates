@@ -132,5 +132,26 @@ namespace Algorithms.Tests.Graphs
             Assert.Contains(result, r => r.Id == v1.Id);
             Assert.Contains(result, r => r.Id == v5.Id);
         }
+
+        [Fact]
+        public void ListGraph_CountPaths_ShouldReturn3()
+        {
+            //Arrange
+            var graph = new ListGraph<int, int>();
+            var v0 = new Vertex<int, int>(0, 0);
+            var v1 = new Vertex<int, int>(1, 1);
+            var v2 = new Vertex<int, int>(2, 2);
+            var v3 = new Vertex<int, int>(3, 3);
+
+            graph.AddEdge(v0, v1);
+            graph.AddEdge(v0, v2);
+            graph.AddEdge(v0, v3);
+            graph.AddEdge(v2, v1);
+            graph.AddEdge(v1, v3);
+
+            //Act
+            var result = graph.CountPaths(v2.Id, v3.Id);
+            Assert.Equal(4, result);
+        }
     }
 }
